@@ -1,7 +1,7 @@
 Here I created a Login Page Using Lightning Component 
 
 Component--------------->
-
+-----UserLogin.cmp----->
 
 <aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="Login"> 
     <aura:attribute name="recordId" type="Id"/>
