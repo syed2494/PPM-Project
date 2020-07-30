@@ -1,0 +1,93 @@
+Css Class------------------------------------------->
+
+.THIS.myCord{margin-top:15px !important;}
+
+
+
+
+.THIS .slds-form-element__label{
+    font-family: Calibri;
+    font-size: inherit;
+    
+}
+
+
+.THIS .slds-wrap{
+    
+        border-top-style: solid;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border-left-width: 3px;
+    /* padding-top: 20px; */
+    margin-top: 3px;
+    border-style: SOLID;
+    border-width: thin;
+}
+/*.slds-large-size_3-of-12
+slds-card header1
+slds-p-horizontal_small
+slds-show
+slds-card__header slds-grid
+slds-button slds-button_brand*/
+.THIS .slds-large-size_3-of-12 {
+        width: 50%;
+}
+
+
+.THIS .slds-form-element_horizontal .slds-form-element__control{
+    padding-left: 40%;
+   
+}
+
+.THIS  .slds-form-element_horizontal .slds-form-element__label{
+        max-width: calc(50% - 1.25rem);
+   
+}
+
+.THIS .slds-p-horizontal_small{
+    
+    border-top-style: solid;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border-left-width: 3px;
+    /* padding-top: 20px; */
+    margin-top: 5px;
+    border-style: SOLID;
+    border-width: thin;
+    color: rgb(21, 17, 17);
+}
+.THIS .slds-tabs_default__content{
+    
+     border-top-style: solid;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border-left-width: 3px;
+    /* padding-top: 20px; */
+    margin-top: 5px;
+    border-style: SOLID;
+    border-width: thin;
+    
+    
+}
+.THIS .slds-card__header{
+    margin:0px 0 .75rem;
+        margin-top: 0px;
+  padding: 0.5rem 1rem 0;
+   
+}
+
+.THIS .slds-float_right{
+   margin-top: 5px;
+}
+@media only screen and (max-width: 768px) {
+    .THIS .CUstPadding{ width: 100%;}
+    .THIS .slds-large-size_3-of-12{width:50%;}
+}
+
+
+.THIS .slds-avatar{
+        
+}
