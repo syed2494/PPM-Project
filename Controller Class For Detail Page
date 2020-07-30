@@ -1,0 +1,1174 @@
+Controller------------------------------>
+
+({
+   
+    closeModal:function(component,event,helper){ 
+        
+        var cmpTarget = component.find('Modalbox');
+        var cmpBack = component.find('Modalbackdrop');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    openmodal:function(component,event,helper) {
+        
+        var cmpTarget = component.find('Modalbox');
+        var cmpBack = component.find('Modalbackdrop');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+    },    
+    updatemodal:function(component,event,helper) {
+     
+        var cmpTarget = component.find('Modalbox');
+        var cmpBack = component.find('Modalbackdrop');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget, 'slds-fade-in-open');
+         
+        
+    },   
+    
+      doInit : function(component, event, helper) {
+      helper.init(component, event, helper);
+                           },   
+      
+      
+    logout : function(component, event, helper) {
+        window.location = '/apex/vflight'
+    },
+    
+   SessionTimeOut : function(component, event, helper) {
+       debugger;
+        var time;
+        resetTimer();
+        window.onmousemove = resetTimer;
+        window.onkeypress = resetTimer;
+        window.ontouchstart = resetTimer;
+        window.onclick = resetTimer; 
+        window.addEventListener('scroll', resetTimer, true); // improved; see comments
+        
+        function logout() {
+     
+            alert("Oops! Your session has expired. Please login again to continue.")
+            window.location = '/apex/vflight'
+         
+           
+        }
+        
+        
+        function resetTimer() {
+           
+            clearTimeout(time);
+            time = setTimeout(logout,600000);  // time is in milliseconds
+        }
+            
+            
+        
+    },
+      
+      
+  
+    
+     toggleSection: function(component, event, helper) {
+        // dynamically get aura:id name from 'data-auraId' attribute
+        
+        var sectionAuraId = event.target.getAttribute("data-auraId");
+         
+        // get section Div element using aura:id
+        var sectionDiv = component.find(sectionAuraId).getElement();
+        /* The search() method searches for 'slds-is-open' class, and returns the position of the match.
+         * This method returns -1 if no match is found.
+        */
+        var sectionState = sectionDiv.getAttribute('class').search('slds-is-open'); 
+        
+        // -1 if 'slds-is-open' class is missing...then set 'slds-is-open' class else set slds-is-close class to element
+       
+        
+         
+        if(sectionState == -1){
+            sectionDiv.setAttribute('class' , 'slds-section slds-is-open');
+        }else{
+            sectionDiv.setAttribute('class' , 'slds-section slds-is-close');
+        }
+    },   
+   
+     EmailNew: function(component,event,helper) {
+       helper.openEmail(component,event,helper);
+    },        
+    MailClose:function(component,event,helper){    
+        helper.closeEmail(component,event,helper);
+    },    
+    EmailUpdate:function(component,event,helper){ 
+       
+        var emailaddress = component.get("v.emailobj.Email_Address__c");
+        
+         console.log(emailaddress);
+        
+        var emailtype = component.get("v.emailobj.Email_Type__c"); 
+        var action =component.get('c.insertemail');
+        var teamMemberId =component.get('v.recordId');
+         console.log(teamMemberId);
+        action.setParams({
+            emailaddress:emailaddress,
+            emailtype:emailtype,
+            recid: component.get("v.recordId")            
+        });
+         helper.openEmail(component,event,helper);
+         helper.closeEmail(component,event,helper);
+          helper.init(component, event, helper);
+           $A.enqueueAction(action);                   
+          
+    },    
+    Email: function(component, event, helper) {
+        helper.EmailsByTeamMember (component, event, helper);
+          helper.init(component, event, helper);     
+    },
+    
+         EmailEdit:function(component,event,helper) {
+       var v1 = event.detail.menuItem.get("v.value");                 
+            component.set('v.selectedId',v1);     
+        var cmpTarget = component.find('Modalbox21');
+        var cmpBack = component.find('Modalbackdrop21');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+        
+    
+     closeEmail:function(component,event,helper){ 
+        
+        var cmpTarget = component.find('Modalbox21');
+        var cmpBack = component.find('Modalbackdrop21');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+     handleSubmit : function(component,event){
+        var cmpTarget = component.find('Modalbox21');
+        var cmpBack = component.find('Modalbackdrop21');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+    
+    
+     PhoneNew: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox2');
+        var cmpBack = component.find('Modalbackdrop2');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+       
+    },    
+    PhoneClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox2');
+        var cmpBack = component.find('Modalbackdrop2');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },   
+    PhoneUpdate:function(component,event,helper){ 
+       
+        var phoneNumber = component.get("v.phoneobj.Phone_Number__c");
+         console.log(phoneNumber);
+        var phoneType = component.get("v.phoneobj.Phone_Type__c"); 
+        var action =component.get('c.insertphone');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            phoneNumber:phoneNumber,
+            phoneType:phoneType,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox2');
+        var cmpBack = component.find('Modalbackdrop2');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    Phone : function(component, event, helper) {  
+        helper.PhonesByTeamMember (component, event, helper);
+      
+    },
+    
+     handleSubmit1 : function(component,event){
+        var cmpTarget = component.find('Modalbox22');
+        var cmpBack = component.find('Modalbackdrop22');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+        
+        
+       PhoneEdit:function(component,event,helper) {
+         var v2 = event.detail.menuItem.get("v.value");                 
+        component.set('v.HelloId',v2);     
+        var cmpTarget = component.find('Modalbox22');
+        var cmpBack = component.find('Modalbackdrop22');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },      
+        
+    ClosePhone:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox22');
+        var cmpBack = component.find('Modalbackdrop22');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },
+    
+    
+     EmergencyContactNew: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox3');
+        var cmpBack = component.find('Modalbackdrop3');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+       
+    },    
+    EmergencyContactClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox3');
+        var cmpBack = component.find('Modalbackdrop3');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },    
+    EmergencyContactUpdate:function(component,event,helper){       
+        var Name = component.get("v.emergencyContactobj.Name");
+        
+         var RelationshipwithEmployee = component.get("v.emergencyContactobj.Relationship_with_Employee__c");
+        
+        var PhoneNumber = component.get("v.emergencyContactobj.Phone_Number__c"); 
+        var action =component.get('c.insertemergencyContact');
+        var teamMemberId =component.get('v.recordId');
+        action.setParams({
+            Name:Name,
+            PhoneNumber:PhoneNumber,
+            RelationshipwithEmployee:RelationshipwithEmployee,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox3');
+        var cmpBack = component.find('Modalbackdrop3');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    EmergencyContact : function(component, event, helper) {     
+        
+        helper.EmergencyContactsByTeamMember(component, event, helper);   
+    },
+    
+    
+    EmergencyContactsEdit: function(component,event,helper) {
+        
+         var v3 = event.detail.menuItem.get("v.value");                 
+        component.set('v.EmergencyId',v3);     
+        var cmpTarget = component.find('Modalbox23');
+        var cmpBack = component.find('Modalbackdrop23');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseEmergencyContact:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox23');
+        var cmpBack = component.find('Modalbackdrop23');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit2 : function(component,event){
+        var cmpTarget = component.find('Modalbox23');
+        var cmpBack = component.find('Modalbackdrop23');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+    
+     AddressNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox4');
+        var cmpBack = component.find('Modalbackdrop4');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },    
+    AddressClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox4');
+        var cmpBack = component.find('Modalbackdrop4');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },    
+    AddressUpdate:function(component,event,helper){        
+        var ZipCode = component.get("v.addressobj.Name");
+         console.log(ZipCode);
+        var AddressType = component.get("v.addressobj.Address_Type__c"); 
+         var Status  = component.get("v.addressobj.Status__c"); 
+         var Address = component.get("v.addressobj.Address__c"); 
+        console.log(Address);
+        var action =component.get('c.insertaddresses');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            ZipCode:ZipCode,
+            AddressType:AddressType,
+            Address:Address,
+            Status:Status,
+            
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox4');
+        var cmpBack = component.find('Modalbackdrop4');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    Address : function(component, event, helper) {           
+     helper.AddressByTeamMember(component, event, helper);
+    },
+    
+     AddressEdit: function(component,event,helper) {
+        
+         var v4 = event.detail.menuItem.get("v.value");                 
+        component.set('v.AddressId',v4);     
+        var cmpTarget = component.find('Modalbox24');
+        var cmpBack = component.find('Modalbackdrop24');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },  
+    
+     CloseAddress:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox24');
+        var cmpBack = component.find('Modalbackdrop24');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+     handleSubmit3 : function(component,event){
+        var cmpTarget = component.find('Modalbox24');
+        var cmpBack = component.find('Modalbackdrop24');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+    
+     WorkExperienceClose:function(component,event,helper){ 
+        
+        var cmpTarget = component.find('Modalbox5');
+        var cmpBack = component.find('Modalbackdrop5');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    }, 
+      WorkExperienceNew:function(component,event,helper) {
+        
+        var cmpTarget = component.find('Modalbox5');
+        var cmpBack = component.find('Modalbackdrop5');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+    },
+      WorkExperienceUpdate:function(component,event,helper){ 
+       
+        var StartDate = component.get("v.WorkExperienceobj.Start_Date__c"); 
+        var EndDate = component.get("v.WorkExperienceobj.End_Date__c"); 
+        var CompanyName = component.get("v.WorkExperienceobj.Company_Name__c"); 
+        var Designation = component.get("v.WorkExperienceobj.Designation__c");        
+        var Skills = component.get("v.WorkExperienceobj.Skills__c"); 
+         var Responsibilities = component.get("v.WorkExperienceobj.Responsibilities__c");  
+        var action =component.get('c.insertWorkExperience');
+        var teamMemberId =component.get('v.recordId');
+        action.setParams({
+           
+            StartDate:StartDate,         
+            EndDate:EndDate,
+            CompanyName:CompanyName,
+            Designation:Designation,
+            Skills:Skills,           
+            Responsibilities:Responsibilities,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox5');
+        var cmpBack = component.find('Modalbackdrop5');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    }, 
+    
+       WorkExperience : function(component, event, helper) {
+           helper.WorkExperienceByTeamMember(component, event, helper);
+    },
+    
+     WorkExperienceEdit: function(component,event,helper) {
+        
+         var v5 = event.detail.menuItem.get("v.value");                 
+        component.set('v.WorkExperienceId',v5);     
+        var cmpTarget = component.find('Modalbox25');
+        var cmpBack = component.find('Modalbackdrop25');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseWorkExperience:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox25');
+        var cmpBack = component.find('Modalbackdrop25');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },
+     handleSubmit4 : function(component,event){
+        var cmpTarget = component.find('Modalbox25');
+        var cmpBack = component.find('Modalbackdrop25');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+
+
+     CompanyProjectNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox6');
+        var cmpBack = component.find('Modalbackdrop6');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },  
+    
+     CompanyProjectClose:function(component,event,helper){    
+        var cmpTarget = component.find('Modalbox6'); 
+       var cmpBack = component.find('Modalbackdrop6');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+    },    
+       CompanyProjectUpdate:function(component,event,helper){ 
+       
+        var ProjectName = component.get("v.companyProjectobj.Name");
+        var ProjectStartDate = component.get("v.companyProjectobj.Project_Start_Date__c");
+        var ProjectEndDate = component.get("v.companyProjectobj.Project_End_Date__c");
+        var WorkTitle = component.get("v.companyProjectobj.Work_Title__c");
+        var Responsibilities= component.get("v.companyProjectobj.Responsibilities__c");
+        var ProjectDescription = component.get("v.companyProjectobj.Project_Description__c");   
+        var action =component.get('c.insertCompanyProject');
+        var teamMemberId =component.get('v.recordId');
+        action.setParams({
+            ProjectName:ProjectName,
+            ProjectStartDate:ProjectStartDate,
+            ProjectEndDate:ProjectEndDate,
+            WorkTitle:WorkTitle,
+            Responsibilities:Responsibilities,
+            ProjectDescription:ProjectDescription,
+            
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox6');
+        var cmpBack = component.find('Modalbackdrop6');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    CompanyProject : function(component, event, helper) {      
+        
+      helper.CompanyProjectByTeamMember(component, event, helper);
+        
+    },
+    
+      CompanyProjectEdit: function(component,event,helper) {
+        
+         var v6 = event.detail.menuItem.get("v.value");                 
+        component.set('v.CompanyProjectId',v6);     
+        var cmpTarget = component.find('Modalbox26');
+        var cmpBack = component.find('Modalbackdrop26');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseCompanyProject:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox26');
+        var cmpBack = component.find('Modalbackdrop26');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit5 : function(component,event){
+        var cmpTarget = component.find('Modalbox26');
+        var cmpBack = component.find('Modalbackdrop26');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+     
+    
+     TechnicalSkillNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox7');
+        var cmpBack = component.find('Modalbackdrop7');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },  
+      TechnicalSkillClose:function(component,event,helper){ 
+        
+        var cmpTarget = component.find('Modalbox7');
+        var cmpBack = component.find('Modalbackdrop7');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    }, 
+    
+        TechnicalSkillUpdate:function(component,event,helper){ 
+       
+        var Competency = component.get("v.technicalSkillobj.Competency__c");
+        var SkillAcquiredDate	 = component.get("v.technicalSkillobj.Skill_Acquired_Date__c"); 
+        var TechnicalSkillName = component.get("v.technicalSkillobj.Name"); 
+        var LastWorkedon = component.get("v.technicalSkillobj.Last_Worked_on__c");    
+        var Proficiency = component.get("v.technicalSkillobj.Proficiency__c");       
+        var action =component.get('c.insertTechnicalSkill');
+        var teamMemberId =component.get('v.recordId');
+        action.setParams({
+            TechnicalSkillName:TechnicalSkillName,
+            Competency:Competency,
+            SkillAcquiredDate:SkillAcquiredDate,            
+            Proficiency:Proficiency,
+            LastWorkedon:LastWorkedon,
+            
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox7');
+        var cmpBack = component.find('Modalbackdrop7');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    TechnicalSkill : function(component, event, helper) {      
+        
+       helper.TechnicalSkillByTeamMember(component, event, helper);
+        
+    },
+    
+     TechnicalSkillEdit: function(component,event,helper) {
+        
+         var v7 = event.detail.menuItem.get("v.value");                 
+        component.set('v.TechnicalSkillId',v7);     
+        var cmpTarget = component.find('Modalbox27');
+        var cmpBack = component.find('Modalbackdrop27');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseTechnicalSkill:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox27');
+        var cmpBack = component.find('Modalbackdrop27');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit6 : function(component,event){
+        var cmpTarget = component.find('Modalbox27');
+        var cmpBack = component.find('Modalbackdrop27');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+     EducationalInfoNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox8');
+        var cmpBack = component.find('Modalbackdrop8');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },    
+    EducationalInfoClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox8');
+        var cmpBack = component.find('Modalbackdrop8');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },    
+       EducationalInfoUpdate :function(component,event,helper){ 
+       
+        var Education = component.get("v.educationalInfoobj.Education__c");
+        
+        var CompletionDate = component.get("v.educationalInfoobj.Completion_Date__c"); 
+         var Specialisation = component.get("v.educationalInfoobj.Specialisation__c"); 
+         var CollegeName = component.get("v.educationalInfoobj.Name"); 
+          var University = component.get("v.educationalInfoobj.University__c");      
+        var action =component.get('c.insertEducationalInfo');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            Education:Education,
+            CompletionDate:CompletionDate,
+            Specialisation:Specialisation,
+            CollegeName:CollegeName,
+            University:University,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox8');
+        var cmpBack = component.find('Modalbackdrop8');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    EducationalInfo : function(component, event, helper) {        
+        
+       helper.EducationalInfoByTeamMember(component, event, helper);
+    },
+    
+ EducationalInfoEdit: function(component,event,helper) {
+        
+         var v8 = event.detail.menuItem.get("v.value");                 
+        component.set('v.EducationalInfoId',v8);     
+        var cmpTarget = component.find('Modalbox28');
+        var cmpBack = component.find('Modalbackdrop28');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseEducationalInfo:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox28');
+        var cmpBack = component.find('Modalbackdrop28');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit7 : function(component,event){
+        var cmpTarget = component.find('Modalbox28');
+        var cmpBack = component.find('Modalbackdrop28');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+     CertificationNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox9');
+        var cmpBack = component.find('Modalbackdrop9');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },    
+    CertificationClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox9');
+        var cmpBack = component.find('Modalbackdrop9');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },  
+    
+     CertificationUpdate: function(component,event,helper){ 
+       
+        var Certificate = component.get("v.certificationobj.Name");
+        var IssuedBy = component.get("v.certificationobj.Issued_By__c"); 
+        var ExpirationDate = component.get("v.certificationobj.Expiration_Date__c"); 
+        var CredentialID = component.get("v.certificationobj.Credential_ID__c"); 
+               
+        var action =component.get('c.insertCertification');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            Certificate:Certificate,
+            IssuedBy:IssuedBy,
+            ExpirationDate:ExpirationDate,
+            CredentialID:CredentialID,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox9');
+        var cmpBack = component.find('Modalbackdrop9');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+       Certification: function(component, event, helper) {      
+        helper.CertificationByTeamMember(component, event, helper);
+        
+    },
+     CertificateEdit: function(component,event,helper) {
+        
+         var v9 = event.detail.menuItem.get("v.value");                 
+        component.set('v.CertificationId',v9);     
+        var cmpTarget = component.find('Modalbox29');
+        var cmpBack = component.find('Modalbackdrop29');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },  
+    
+     CloseCertification:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox29');
+        var cmpBack = component.find('Modalbackdrop29');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit8 : function(component,event){
+        var cmpTarget = component.find('Modalbox29');
+        var cmpBack = component.find('Modalbackdrop29');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+  
+      TrainingAwardNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox10');
+        var cmpBack = component.find('Modalbackdrop10');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },    
+    TrainingAwardClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox10');
+        var cmpBack = component.find('Modalbackdrop10');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },  
+    
+     TrainingAwardUpdate :function(component,event,helper){ 
+       
+        var HonorAward = component.get("v.trainingAwardobj.Name");
+        
+        var Grantor = component.get("v.trainingAwardobj.Grantor__c"); 
+         var IssueDate = component.get("v.trainingAwardobj.Issue_Date__c"); 
+            
+        var action =component.get('c.insertTrainingAward');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            HonorAward:HonorAward,
+            Grantor:Grantor,
+            IssueDate:IssueDate,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox10');
+        var cmpBack = component.find('Modalbackdrop10');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    TrainingAward : function(component, event, helper) {        
+     helper.TrainingAwardByTeamMember(component, event, helper);
+        
+    },
+    
+     TrainingAwardEdit: function(component,event,helper) {
+        
+         var v10 = event.detail.menuItem.get("v.value");                 
+        component.set('v.TrainingAwardId',v10);     
+        var cmpTarget = component.find('Modalbox30');
+        var cmpBack = component.find('Modalbackdrop30');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseTrainingAward:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox30');
+        var cmpBack = component.find('Modalbackdrop30');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit9 : function(component,event){
+        var cmpTarget = component.find('Modalbox30');
+        var cmpBack = component.find('Modalbackdrop30');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+     PassportNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox11');
+        var cmpBack = component.find('Modalbackdrop11');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },    
+    PassportClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox11');
+        var cmpBack = component.find('Modalbackdrop11');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+       
+    },
+     PassportUpdate :function(component,event,helper){ 
+       
+          
+        var PassportNumber = component.get("v.Passportobj.Passport_Number__c");
+         var Country = component.get("v.Passportobj.Country__c");
+          var ExpirationDate = component.get("v.Passportobj.Expiration_Date__c");
+          
+            
+        var action =component.get('c.insertPassport');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            
+            PassportNumber:PassportNumber,
+            Country:Country,
+            ExpirationDate:ExpirationDate,
+           
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox11');
+        var cmpBack = component.find('Modalbackdrop11');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    Passport : function(component, event, helper) {               
+       helper.PassportByTeamMember(component, event, helper);
+    },
+    
+     PassportEdit: function(component,event,helper) {
+        
+         var v11 = event.detail.menuItem.get("v.value");                 
+        component.set('v.PassportId',v11);     
+        var cmpTarget = component.find('Modalbox31');
+        var cmpBack = component.find('Modalbackdrop31');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     ClosePassport:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox31');
+        var cmpBack = component.find('Modalbackdrop31');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit10 : function(component,event){
+        var cmpTarget = component.find('Modalbox31');
+        var cmpBack = component.find('Modalbackdrop31');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+     VisaNew: function(component,event,helper) {
+        var cmpTarget = component.find('Modalbox12');
+        var cmpBack = component.find('Modalbackdrop12');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },  
+
+ 
+    
+     VisaClose: function(component,event,helper) {
+         var cmpTarget = component.find('Modalbox12');
+        var cmpBack = component.find('Modalbackdrop12');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open'); 
+     },
+    
+   VisaUpdate :function(component,event,helper){ 
+       
+        var VisaName = component.get("v.visaobj.Name");
+           var Passport = component.get("v.visaobj.Passport__c");
+          /*var PassportNumber = component.get("v.visaobj.Passport_Number__c");*/
+          var Visa = component.get("v.visaobj.Visa__c");
+          var VisaNumber = component.get("v.visaobj.Visa_Number__c");
+          var Country = component.get("v.visaobj.VisaCountry__c");
+          var Type = component.get("v.visaobj.Type__c");
+      
+         var VisaExpirationDate = component.get("v.visaobj.Visa_Expiration_Date__c"); 
+            
+        var action =component.get('c.insertVisa');
+        var teamMemberId =component.get('v.recordId');
+        console.log(teamMemberId);
+        action.setParams({
+            VisaName:VisaName,
+            Passport:Passport,
+            Visa:Visa,
+            VisaNumber:VisaNumber,
+            Country:Country,
+            Type:Type,
+            VisaExpirationDate:VisaExpirationDate,
+            recid: component.get("v.recordId")            
+        });
+        
+        var cmpTarget = component.find('Modalbox12');
+        var cmpBack = component.find('Modalbackdrop12');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');        
+        $A.enqueueAction(action);        
+    },    
+    Visa : function(component, event, helper) {       
+        
+        helper.VisaByTeamMember(component, event, helper);
+        
+    },   
+      VisaEdit: function(component,event,helper) {
+        
+         var v12 = event.detail.menuItem.get("v.value");                 
+        component.set('v.VisaId',v12);     
+        var cmpTarget = component.find('Modalbox32');
+        var cmpBack = component.find('Modalbackdrop32');
+        $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+        $A.util.addClass(cmpBack, 'slds-backdrop--open'); 
+
+       
+    },   
+    
+     CloseVisa:  function(component,event,helper) { 
+        
+        var cmpTarget = component.find('Modalbox32');
+        var cmpBack = component.find('Modalbackdrop32');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open'); 
+    },  
+    
+    
+     handleSubmit11 : function(component,event){
+        var cmpTarget = component.find('Modalbox32');
+        var cmpBack = component.find('Modalbackdrop32');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+    },
+    
+   /* onRender: function (cmp) {
+        var interval = setInterval($A.getCallback(function () {
+          var progress = cmp.get('v.Profile_Completion__c');
+            cmp.set('v.Profile_Completion__c', progress === 100 ? clearInterval(interval) : progress + 10);
+        }), 200);
+    }*/
+    
+    
+  
+})
+
+
+
+
+
+
+
+Helper Class----------------------------------------------------------->
+
+
+
+
+({
+    openEmail: function(component, event, helper) {
+         var cmpTarget = component.find('Modalbox1');
+        var cmpBack = component.find('Modalbackdrop1');
+        $A.util.addClass(cmpTarget,'slds-fade-in-open');
+        $A.util.addClass(cmpBack,'slds-backdrop--open'); 
+    },
+    
+    closeEmail: function(component, event, helper) {
+         var cmpTarget = component.find('Modalbox1'); 
+       var cmpBack = component.find('Modalbackdrop1');
+        $A.util.removeClass(cmpTarget,'slds-fade-in-open');
+        $A.util.removeClass(cmpBack,'slds-backdrop--open');
+    },
+    
+    init: function(component, event, helper) {
+         var loggedInUser; 
+       
+        
+        var action1 = component.get("c.fetchUser");
+      	
+        console.log('hiiiiiiiiiiiiiiiiiiiiii',component.get("v.recordId"));
+        
+         action1.setParams({
+            teamId: component.get("v.recordId")
+        });
+        
+		    action1.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue();
+               
+                
+               loggedInUser = response.getReturnValue();
+           console.log('responseeeeeeeeee',responsevalue);
+          component.set('v.ProfileCompletion',responsevalue.Profile_Completion__c);
+              component.set('v.firstName',responsevalue.First_Name__c);
+                component.set('v.lastName',responsevalue.Last_Name__c);
+        }); 
+        
+        
+        $A.enqueueAction(action1);
+    },
+    
+    EmailsByTeamMember: function(component, event, helper) {
+         var action =component.get('c.findEmailsByTeamMember');
+        
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+             console.log(responsevalue); 
+            component.set('v.EmailsList', responsevalue); 
+           
+        });        	
+        $A.enqueueAction(action);
+        },
+    
+    PhonesByTeamMember:function(component, event, helper) {
+          var action =component.get('c.findPhonesByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.PhonesList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+        
+    
+    },
+    
+    EmergencyContactsByTeamMember : function(component, event, helper) {
+         var action =component.get('c.findEmergencyContactsByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.EmergencyContactsList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+    },
+    
+    AddressByTeamMember : function(component, event, helper) {
+           var action =component.get('c.findAddressByTeamMember');        
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue();            
+                 
+            component.set('v.AddressList', responsevalue);           
+        });        	
+        $A.enqueueAction(action);        
+    },
+    
+    WorkExperienceByTeamMember: function(component, event, helper) {
+            var action =component.get('c.findWorkExperienceByTeamMember');        
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue();            
+                 console.log(responsevalue); 
+            component.set('v.WorkExperienceList',responsevalue);           
+        });        	
+        $A.enqueueAction(action);        
+    },
+    
+    CompanyProjectByTeamMember : function(component, event, helper) {
+          var action =component.get('c.findCompanyProjectByTeamMember');
+        
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.CompanyProjectList', responsevalue); 
+           
+        });        	
+        $A.enqueueAction(action);
+    },
+    
+    TechnicalSkillByTeamMember : function(component, event, helper) {
+         var action =component.get('c.findTechnicalSkillByTeamMember');
+        
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+            console.log(responsevalue); 
+            component.set('v.TechnicalSkillList', responsevalue); 
+               console.log('TechnicalSkillList'); 
+        });        	
+        $A.enqueueAction(action);
+    },
+    
+    EducationalInfoByTeamMember : function(component, event, helper) {
+          var action =component.get('c.findEducationalInfoByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.EducationalInfoList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+        
+    },
+	
+    
+    CertificationByTeamMember : function(component, event, helper) {
+         var action =component.get('c.findCertificationByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.CertificationList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+        
+    },
+    
+    TrainingAwardByTeamMember :function(component, event, helper) {
+         var action =component.get('c.findTrainingAwardByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+           
+            component.set('v.TrainingAwardList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+    },
+    PassportByTeamMember :function(component, event, helper) {
+          var action =component.get('c.findPassportByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+             console.log(responsevalue); 
+            component.set('v.PassportList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+        
+    },
+    
+    VisaByTeamMember : function(component, event, helper) {
+         var action =component.get('c.findVisaByTeamMember');
+        action.setParams({
+            recid: component.get("v.recordId")
+        });
+        action.setCallback(this, function(response){
+            var responsevalue =response.getReturnValue(); 
+             console.log(responsevalue); 
+            component.set('v.VisaList', responsevalue); 
+        });        	
+        $A.enqueueAction(action);
+    }
+})
