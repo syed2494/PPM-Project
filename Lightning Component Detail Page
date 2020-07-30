@@ -2,6 +2,7 @@ here iam Creating Detail Page using Lightning Component which it will fetch the 
 
 Component---------------------------------->
 
+---UpdateModel.cmp------
 
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasrecordId,force:lightningQuickAction" access="global" controller="UpdateModel"> 
 
