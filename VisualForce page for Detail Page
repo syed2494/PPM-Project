@@ -1,0 +1,35 @@
+---------------here we are creating VisualForcePage which will call Lightning Detail Page------------
+
+UpdateDetails.Vfp---
+
+<apex:page showHeader="false" standardStylesheets="true" >
+    
+    <apex:includeLightning />  
+    
+    <apex:includeScript value="/lightning/lightning.out.js" />
+    <div id="LightningComponentid" /> 
+    
+    <script>
+    
+
+    var recordId  = "{!$CurrentPage.parameters.Id}";
+  
+
+      $Lightning.use("c:UserLoginapp", function() {
+            $Lightning.createComponent("c:UpdateModel", 
+                                       
+    
+                                   {"recordId":recordId},
+                                  
+                                   "LightningComponentid",function(cmp) {            
+                                       // console.log('Display Lightning component in visualforce page');
+                                      
+                                   });
+    });
+    
+   
+      
+    </script>
+    
+
+  </apex:page>
