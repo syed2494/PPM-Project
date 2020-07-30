@@ -1,0 +1,1952 @@
+here iam Creating Detail Page using Lightning Component which it will fetch the user detail from the salesforce Org. From this we can Edit Or save the Data .
+
+Component---------------------------------->
+
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasrecordId,force:lightningQuickAction" access="global" controller="UpdateModel"> 
+
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+     <aura:handler event="force:refreshView" action="{!c.init}"/>
+   
+    <aura:handler name="init" value="{!this}" action="{!c.SessionTimeOut}"/>
+    <aura:attribute name="firstName" type="String"/>
+    <aura:attribute name="lastName" type="String"/>
+    <aura:attribute name="ProfileCompletion" type="String"/>    
+    <aura:attribute name="selectedId" type="Id"/>
+    <aura:attribute name="HelloId" type="Id"/>
+      <aura:attribute name="EmergencyId" type="Id"/>
+     <aura:attribute name="AddressId" type="Id"/>    
+       <aura:attribute name="WorkExperienceId" type="Id"/>
+    <aura:attribute name="CompanyProjectId" type="Id"/>
+    <aura:attribute name="TechnicalSkillId" type="Id"/>
+      <aura:attribute name="EducationalInfoId" type="Id"/>
+      <aura:attribute name="CertificationId" type="Id"/>
+      <aura:attribute name="TrainingAwardId" type="Id"/>
+     <aura:attribute name="PassportId" type="Id"/>
+      <aura:attribute name="VisaId" type="Id"/>
+    
+    
+    
+    
+    
+     <aura:handler name="init" value="{!this}" action="{!c.Email}"/>   
+      <aura:attribute name="EmailsList" type="list" default="Email__c[]"/>    
+      <aura:attribute name="emailobj" type="Email__c" default="{'sobjectType':'Email__c'}"/>
+    
+       <aura:handler name="init" value="{!this}" action="{!c.Phone}"/>    
+      <aura:attribute name="PhonesList" type="list" default="Phone__c[]"/>    
+      <aura:attribute name="phoneobj" type="Phone__c" default="{'sobjectType':'Phone__c'}"/>
+            
+         <aura:handler name="init" value="{!this}" action="{!c.EmergencyContact}"/>    
+      <aura:attribute name="EmergencyContactsList" type="list" default="Emergency_Contact__c[]"/>    
+      <aura:attribute name="emergencyContactobj" type="Emergency_Contact__c" default="{'sobjectType':'Emergency_Contact__c'}"/>
+        
+     <aura:handler name="init" value="{!this}" action="{!c.Address}"/>    
+      <aura:attribute name="AddressList" type="list" default="Address__c[]"/>    
+      <aura:attribute name="addressobj" type="Address__c" default="{'sobjectType':'Address__c'}"/>
+       
+       <aura:handler name="init" value="{!this}" action="{!c.WorkExperience}"/>    
+      <aura:attribute name="WorkExperienceList" type="list" default="Work_Experience__c[]"/>    
+      <aura:attribute name="WorkExperienceobj" type="Work_Experience__c" default="{'sobjectType':'Work_Experience__c'}"/>
+    
+     <aura:handler name="init" value="{!this}" action="{!c.CompanyProject}"/>    
+      <aura:attribute name="CompanyProjectList" type="list" default="Company_Project__c[]"/>    
+      <aura:attribute name="companyProjectobj" type="Company_Project__c" default="{'sobjectType':'Company_Project__c'}"/>
+    
+     <aura:handler name="init" value="{!this}" action="{!c.TechnicalSkill}"/>    
+      <aura:attribute name="TechnicalSkillList" type="list" default="Technical_Skill__c[]"/>    
+      <aura:attribute name="technicalSkillobj" type="Technical_Skill__c" default="{'sobjectType':'Technical_Skill__c'}"/>
+    
+      <aura:handler name="init" value="{!this}" action="{!c.EducationalInfo}"/>    
+      <aura:attribute name="EducationalInfoList" type="list" default="Educational_Info__c[]"/>    
+      <aura:attribute name="educationalInfoobj" type="Educational_Info__c" default="{'sobjectType':'Educational_Info__c'}"/>
+
+    
+      <aura:handler name="init" value="{!this}" action="{!c.Certification}"/>    
+      <aura:attribute name="CertificationList" type="list" default="Certifications__c[]"/>    
+      <aura:attribute name="certificationobj" type="Certifications__c" default="{'sobjectType':'Certifications__c'}"/>
+
+    
+    <aura:handler name="init" value="{!this}" action="{!c.TrainingAward}"/>    
+      <aura:attribute name="TrainingAwardList" type="list" default="Training_Awards__c[]"/>    
+      <aura:attribute name="trainingAwardobj" type="Training_Awards__c" default="{'sobjectType':'Training_Awards__c'}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.Passport}"/>    
+      <aura:attribute name="PassportList" type="list" default="Passport__c[]"/>     
+      <aura:attribute name="Passportobj" type="Passport__c" default="{'sobjectType':'Passport__c'}"/>
+    
+   
+     <aura:handler name="init" value="{!this}" action="{!c.Visa}"/>    
+      <aura:attribute name="VisaList" type="list" default="Visa__c[]"/>     
+      <aura:attribute name="visaobj" type="Visa__c" default="{'sobjectType':'Visa__c'}"/>
+    
+    
+  
+         
+        <lightning:card class="myCord">
+          <div class="slds-float_right" style ="margin-top: -44px;margin-right: 16px;">
+         <lightning:button variant="brand" label="Logout"  iconPosition="centre"    onclick="{!c.logout}"/>
+      </div>    
+         <div class="slds-card__body" style ="border-top-style: solid;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border-left-width: 3px;
+    /* padding-top: 20px; */
+    margin-top: 43px;
+    border-style: SOLID;
+    border-width: thin;
+    color: rgb(21, 17, 17);
+    
+    height: 44px;">
+   
+               <lightning:card iconName="standard:avatar">
+              
+            
+         <div class="slds-clearfix">
+        <div class="slds-section" style ="margin-left: 58px;
+    font-size: medium;margin-bottom: -31px;margin-top: 1.1rem;color: rgbrgb(2, 1, 10);margin-top: -35px;">
+  
+    <p> {!v.firstName},{!v.lastName} 
+            </p> 
+    </div>
+            <div class="slds-section" style ="margin-left: 58px;
+    font-size: small;margin-bottom: -31px;margin-top: 1.1rem;color: rgbrgb(2, 1, 10);margin-top: 5px;">
+          
+             <br></br> Profile Completion[{!v.ProfileCompletion}%]
+              
+          
+            </div>
+        
+   </div>
+                
+             </lightning:card> 
+   
+      <span class="slds-assistive-text">Collapse Panel Header</span>
+
+ 
+            
+         </div>
+    </lightning:card>
+            
+    
+  
+   <lightning:card class="myCord" >      
+    <aura:set attribute="actions">
+           <div class="slds-float_right">               
+         <lightning:button variant="brand" iconName="utility:save" iconPosition="centre" label="Edit" onclick= "{!c.openmodal}" />
+          </div>
+             
+      </aura:set>
+       
+      <p class="slds-p-horizontal_small ">
+         <lightning:recordViewForm recordId= "{!v.recordId}" objectApiName="Team_Member_Profile__c">
+            
+             
+      <div class="slds-section slds-is-open" aura:id="Personal Information">
+      <!--section header-->
+      <h3 class="slds-section__title">
+      <button aria-controls="InformationList" class="slds-button slds-section__title-action">
+      <span onclick="{!c.toggleSection}" data-auraId="Personal Information">
+      <lightning:icon iconName="utility:switch"
+         size="x-small"
+         class="slds-section__title-action-icon slds-button__icon_left"
+         alternativeText="button icon" 
+         />
+      </span>
+      <span class="slds-truncate " title="Personal Information">Personal Information</span>
+      </button>
+      </h3>
+      <div>
+      <div class="slds-section__content CUstPadding" id="InformationList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "First_Name__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Date_of_Birth__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Middle_Name__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Gender__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Last_Name__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Blood_Group__c" class= "design"/>
+      </lightning:layoutItem>
+      </lightning:layout>
+      </div>
+      </div>
+      </div>
+      <div class="slds-section slds-is-Close" aura:id="Employee Details">
+      <!--section header-->
+      <h3 class="slds-section__title">
+      <button aria-controls="DetailList" class="slds-button slds-section__title-action">
+      <span onclick="{!c.toggleSection}" data-auraId="Employee Details">
+      <lightning:icon iconName="utility:switch"
+         size="x-small"
+         class="slds-section__title-action-icon slds-button__icon_left"
+         alternativeText="button icon" 
+         />
+      </span>
+      <span class="slds-truncate" title="Employee Details">Employee Details</span>
+      </button>
+      </h3>
+      <div class="slds-section__content CUstPadding" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Designation__c" class= "design"/>
+      </lightning:layoutItem>
+      <!--<lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="1" padding="around-small">
+         <lightning:outputField fieldName= "Joining_Date__c" class= "design"/>
+         </lightning:layoutItem>-->
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Joining_Date__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Hiring_Location__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Manager__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Grade__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Last_Working_Date__c" class= "design"/>
+      </lightning:layoutItem>
+      </lightning:layout>
+      </div>
+      </div>
+             
+           <div class="slds-section slds-is-Close" aura:id="Addition Information">
+         <!--section header-->
+         <h3 class="slds-section__title">
+            <button aria-controls="Marital StatusList" class="slds-button slds-section__title-action">
+               <span onclick="{!c.toggleSection}" data-auraId="Addition Information">
+                  <lightning:icon iconName="utility:switch"
+                     size="x-small"
+                     class="slds-section__title-action-icon slds-button__icon_left"
+                     alternativeText="button icon" 
+                     />
+               </span>
+               <span class="slds-truncate" title="Addition Information">Addition Information</span>
+            </button>
+         </h3>
+         <!--section body-->
+         <div class="slds-section__content CUstPadding" id="Marital StatusList">
+            <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Marital_Status__c" class= "design"/>
+       </lightning:layoutItem>   
+       <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "National_Skills_Registry__c" class= "design"/>
+       </lightning:layoutItem> 
+             </lightning:layout>
+          </div>
+       </div>
+          </lightning:recordViewForm>
+       </p>  
+       
+      <!--<lightning:button variant="brand" iconName="utility:save" iconPosition="centre" label="Edit" onclick= "{!c.openmodal}"/>-->
+      <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                  <lightning:card iconName="standard:avatar" 
+                     title="{! (v.recordId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                     <lightning:recordEditForm aura:id="Form" recordId= "{!v.recordId}" objectApiName="Team_Member_Profile__c"  >
+                         <lightning:messages/>
+                                        <lightning:inputField fieldName="First_Name__c"     aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Date_of_Birth__c"   aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Middle_Name__c"     aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Gender__c"          aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Last_Name__c"       aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Blood_Group__c"     aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Name"               aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Designation__c"     aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Joining_Date__c"    aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Hiring_Location__c"  aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Manager__c"           aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Grade__c"              aura:id="Team_Member_Profile__c"/>        
+                                        <lightning:inputField fieldName="Last_Working_Date__c"  aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="Marital_Status__c"      aura:id="Team_Member_Profile__c"/>
+                                        <lightning:inputField fieldName="National_Skills_Registry__c"  aura:id="Team_Member_Profile__c"/>
+                        <div class="slds-m-top_medium">
+                           <lightning:button variant="brand"  iconPosition="left" label="Save" type="submit" onclick= "{!c.updatemodal}"/>
+                           <lightning:button variant="brand"  iconPosition="left" label="Cancel" onclick= "{!c.closeModal}"/>
+                        </div>
+                     </lightning:recordEditForm>
+                  </lightning:card>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+   
+   </lightning:card>
+    <br><br><br><br></br></br></br></br>
+    
+    
+     <lightning:card>  
+     <lightning:tabset selectedTabId="one">
+        <lightning:tab label="Communication Details" id="one">
+           <lightning:card title="Emails" iconName="standard:email" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.EmailNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">  
+                      <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+        <thead>  
+              <tr class="slds-text-title--caps">
+                        <th class="" scope="col">	
+                            <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="EmailAddress">Email Address</div>
+                               
+                            </td>
+                            
+                        </th>
+            </tr>
+            
+        </thead>
+        
+        <tbody> 
+              <aura:iteration items="{!v.EmailsList}" var="Emails" >
+                  
+                    <tr class="slds-line-height_reset">         
+                                    
+                         <td> {!Emails.Email_Address__c}</td>
+                        
+                        <td>
+                           
+                        <div class="slds-float_right"> 
+                     <lightning:buttonMenu aura:id="menu_+{!index}" alternativeText="Show menu"  onselect= "{!c.EmailEdit}" >
+                     <lightning:menuItem value="{!Emails.Id}" label="Edit" aura:id="ModelEdit_+{!index}" />
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                               </div>
+                           
+                        </td>
+                  </tr>
+                 
+            </aura:iteration>
+        </tbody>
+    </table> 
+   
+                     
+                     
+                     
+     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox1" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.MailClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Email</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                 <lightning:recordEditForm aura:id="form" objectApiName="Email__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Email_Address__c" value="{!v.emailobj.Email_Address__c}"/>
+                                    <lightning:inputField fieldName="Email_Type__c" value="{!v.emailobj.Email_Type__c}"/>                                   
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.EmailUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.MailClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop1"></div>            
+       
+               </p>
+            </lightning:card>
+                
+         
+          
+            <lightning:recordEditForm  recordId="{!v.selectedId}"  objectApiName="Email__c">
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Email_Address__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Email_Type__c" class= "design"/>
+      </lightning:layoutItem>
+     
+      </lightning:layout>
+      </div>
+         </lightning:recordEditForm>
+         
+         
+         
+         <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox21" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeEmail }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                  <lightning:card iconName="standard:avatar" 
+                     title="{! (v.selectedId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                      <aura:if isTrue="{!not(empty(v.selectedId))}">
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.selectedId}" objectApiName="Email__c"  onsubmit="{!c.handleSubmit}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Email_Address__c"  />
+                         <lightning:inputField fieldName="Email_Type__c"  />
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.closeEmail}"/>
+                           </lightning:recordEditForm>
+                           </aura:if> 
+                    </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop21"></div>
+             <lightning:card title="Phones" iconName="standard:call"  class= "header1">
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.PhoneNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">
+                     
+         <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Phone Number">Phone Number</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.PhonesList}" var="Phones" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!Phones.Phone_Number__c}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu  aura:id="menu_+{!index}" alternativeText="Show menu" onselect="{! c.PhoneEdit}">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!Phones.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+
+                     
+                      <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox2" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.PhoneClose}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Phone</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Phone__c" class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Phone_Number__c" value="{!v.phoneobj.Phone_Number__c}"/>
+                                    <lightning:inputField fieldName="Phone_Type__c" value="{!v.phoneobj.Phone_Type__c}"/>                                   
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                     
+               <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick="{!c.PhoneUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.PhoneClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop" aura:id="Modalbackdrop2"></div>                     
+           
+             </p>
+            
+            </lightning:card>
+            
+
+         
+           <lightning:recordEditForm  recordId = "{!v.HelloId}" objectApiName="Phone__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Phone_Number__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Phone_Type__c" class= "design"/>
+      </lightning:layoutItem>
+     
+      </lightning:layout>
+      </div>
+         </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox22" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.ClosePhone}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                 <lightning:card iconName="standard:avatar" 
+                     title="{! (v.HelloId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.HelloId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.HelloId}" objectApiName="Phone__c"  onsubmit="{!c.handleSubmit1}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Phone_Number__c"  />
+                         <lightning:inputField fieldName="Phone_Type__c"  />
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.ClosePhone}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                   </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop22"></div>
+            
+              <lightning:card title="EmergencyContacts" iconName="standard:log_a_call" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.EmergencyContactNew}"/>
+        </aura:set>
+        
+      <p class="slds-p-horizontal_small">
+          
+           <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Name">Name</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.EmergencyContactsList}" var="EmergencyContacts" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!EmergencyContacts.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu" aura:id="menu_+{!index}" onselect="{! c.EmergencyContactsEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!EmergencyContacts.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+          
+          
+           <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox3" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.EmergencyContactClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New EmergencyContact</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Emergency_Contact__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Name" value="{!v.emergencyContactobj.Name}"/>
+                                    <lightning:inputField fieldName="Phone_Number__c" value="{!v.emergencyContactobj.Phone_Number__c}"/> 
+                                    <lightning:inputField fieldName="Relationship_with_Employee__c" value="{!v.emergencyContactobj.Relationship_with_Employee__c}"/>
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.EmergencyContactUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.EmergencyContactClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop3"></div>       
+     </p>
+     
+         </lightning:card>
+         
+        
+           <lightning:recordEditForm  recordId = "{!v.EmergencyId}" objectApiName="Emergency_Contact__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Phone_Number__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Relationship_with_Employee__c" class= "design"/>
+      </lightning:layoutItem>
+         
+      </lightning:layout>
+      </div>
+         </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox23" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseEmergencyContact}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                  <lightning:card iconName="standard:avatar" 
+                     title="{! (v.EmergencyId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.EmergencyId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.EmergencyId}" objectApiName="Emergency_Contact__c"  onsubmit="{!c.handleSubmit2}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Name"  />
+                         <lightning:inputField fieldName="Phone_Number__c"  />
+                             <lightning:inputField fieldName="Relationship_with_Employee__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseEmergencyContact}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                   </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop23"></div>
+            
+            
+               <lightning:card title="Address" iconName="standard:address" class= "header1" > 
+               <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.AddressNew}"/>
+        </aura:set>
+               
+               <p class="slds-p-horizontal_small">
+                   
+             <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="ZipCode">Zip Code</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.AddressList}" var="Address" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!Address.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu" aura:id="menu_+{!index}" onselect="{! c.AddressEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!Address.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                   
+                   
+                    <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox4" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.AddressClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Address</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Address__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Name" value="{!v.addressobj.Name}"/>
+                                    <lightning:inputField fieldName="Address_Type__c" value="{!v.addressobj.Address_Type__c}"/> 
+                                    <lightning:inputField fieldName="Status__c" value="{!v.addressobj.Status__c}"/>
+                                    <lightning:inputField fieldName="Address__c" value="{!v.addressobj.Address__c}"/>
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.AddressUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.AddressClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop4"></div>       
+               
+               </p>
+            </lightning:card>
+          </lightning:tab>
+        
+         
+           <lightning:recordEditForm recordId = "{!v.AddressId}" objectApiName="Address__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Address_Type__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Status__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Address__c" class= "design"/>
+      </lightning:layoutItem>        
+      </lightning:layout>
+      </div>
+         </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox24" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseAddress}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+               <lightning:card iconName="standard:avatar" 
+                     title="{! (v.AddressId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.AddressId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.AddressId}" objectApiName="Address__c"  onsubmit="{!c.handleSubmit3}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Name"  />
+                         <lightning:inputField fieldName="Address_Type__c"  />
+                             <lightning:inputField fieldName="Status__c"/>
+                             <lightning:inputField fieldName="Address__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseAddress}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                    </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>    
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop24"></div>
+            
+        
+   <lightning:tab label="Experience Details" id="Two">
+               <lightning:card title="WorkExperience" iconName="standard:avatar" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.WorkExperienceNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">                    
+        
+             <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="CompanyName">CompanyName</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.WorkExperienceList}" var="WorkExperience" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!WorkExperience.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu"  aura:id="menu_+{!index}" onselect="{!c.WorkExperienceEdit}">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!WorkExperience.Id}" label="Edit" />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox5" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.WorkExperienceClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New WorkExperience</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Work_Experience__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>
+                                    
+                                    <lightning:inputField fieldName="Start_Date__c" value="{!v.WorkExperienceobj.Start_Date__c}"/>
+                                    <lightning:inputField fieldName="End_Date__c" value="{!v.WorkExperienceobj.End_Date__c}"/> 
+                                     <lightning:inputField fieldName="Company_Name__c" value="{!v.WorkExperienceobj.Company_Name__c}"/>                              
+                                     <lightning:inputField fieldName="Designation__c" value="{!v.WorkExperienceobj.Designation__c}"/>   
+                                     <lightning:inputField fieldName="Skills__c" value="{!v.WorkExperienceobj.Skills__c}"/>  
+                                     <lightning:inputField fieldName="Responsibilities__c" value="{!v.WorkExperienceobj.Responsibilities__c}"/> 
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.WorkExperienceUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.WorkExperienceClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop5"></div>            
+       
+                     
+                </p>
+       
+            </lightning:card>
+         
+        
+             <lightning:recordEditForm  recordId = "{!v.WorkExperienceId}" objectApiName="Work_Experience__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Start_Date__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "End_Date__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Company_Name__c" class= "design"/>
+      </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Designation__c" class= "design"/>
+          </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Skills__c" class= "design"/>
+          </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Responsibilities__c" class= "design"/>
+          </lightning:layoutItem>
+          
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox25" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseWorkExperience}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                 <lightning:card iconName="standard:avatar" 
+                     title="{! (v.WorkExperienceId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.WorkExperienceId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.WorkExperienceId}" objectApiName="Work_Experience__c"  onsubmit="{!c.handleSubmit4}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Start_Date__c"  />
+                         <lightning:inputField fieldName="End_Date__c"  />
+                             <lightning:inputField fieldName="Company_Name__c"/>
+                             <lightning:inputField fieldName="Designation__c"/>
+                             <lightning:inputField fieldName="Skills__c"/>
+                             <lightning:inputField fieldName="Responsibilities__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseWorkExperience}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                    </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop25"></div>
+         
+        <lightning:card title="CompanyProject" iconName="standard:job_profile" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.CompanyProjectNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">                    
+        
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="ProjectName">ProjectName</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.CompanyProjectList}" var="CompanyProject" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!CompanyProject.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu" aura:id="menu_+{!index}" onselect="{! c.CompanyProjectEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!CompanyProject.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox6" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.CompanyProjectClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New CompanyProject</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Company_Project__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Name" value="{!v.companyProjectobj.Name}"/>
+                                    <lightning:inputField fieldName="Project_Start_Date__c" value="{!v.companyProjectobj.Project_Start_Date__c}"/>
+                                    <lightning:inputField fieldName="Project_End_Date__c" value="{!v.companyProjectobj.Project_End_Date__c}"/>
+                                    <lightning:inputField fieldName="Work_Title__c" value="{!v.companyProjectobj.Work_Title__c}"/>
+                                    <lightning:inputField fieldName="Responsibilities__c" value="{!v.companyProjectobj.Responsibilities__c}"/>
+                                    <lightning:inputField fieldName="Project_Description__c" value="{!v.companyProjectobj.Project_Description__c}"/>
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.CompanyProjectUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.CompanyProjectClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop6"></div>            
+       
+                     
+                </p>
+       
+            </lightning:card>
+         
+         
+           <lightning:recordEditForm  recordId = "{!v.CompanyProjectId}" objectApiName="Company_Project__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Project_Start_Date__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Work_Title__c" class= "design"/>
+      </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Responsibilities__c" class= "design"/>
+          </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Project_Description__c" class= "design"/>
+          </lightning:layoutItem>
+          
+          
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox26" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseCompanyProject}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                <lightning:card iconName="standard:avatar" 
+                     title="{! (v.CompanyProjectId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.CompanyProjectId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.CompanyProjectId}" objectApiName="Company_Project__c"  onsubmit="{!c.handleSubmit5}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Name"  />
+                         <lightning:inputField fieldName="Project_Start_Date__c"  />
+                             <lightning:inputField fieldName="Project_End_Date__c"/>
+                            <lightning:inputField fieldName="Work_Title__c"/>
+                            <lightning:inputField fieldName="Responsibilities__c"/>
+                            <lightning:inputField fieldName="Project_Description__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseCompanyProject}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                  </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop26"></div>
+         
+           <lightning:card title="TechnicalSkill" iconName="standard:skill"  class= "header1">
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.TechnicalSkillNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Technical Skill Competency">Technical Skill Competency</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.TechnicalSkillList}" var="TechnicalSkill" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!TechnicalSkill.Competency__c}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu" aura:id="menu_+{!index}" onselect="{! c.TechnicalSkillEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!TechnicalSkill.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                      <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox7" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.TechnicalSkillClose}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New TechnicalSkill</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Technical_Skill__c" class="slds-card__body_inner">
+                                    <lightning:messages/> 
+                                   
+                                    <lightning:inputField fieldName="Competency__c" value="{!v.technicalSkillobj.Competency__c}"/>
+                                    <lightning:inputField fieldName="Skill_Acquired_Date__c" value="{!v.technicalSkillobj.Skill_Acquired_Date__c}"/>
+                                     
+                                     <lightning:inputField fieldName="Last_Worked_on__c" value="{!v.technicalSkillobj.Last_Worked_on__c}"/>
+                                    <lightning:inputField fieldName="Proficiency__c" value="{!v.technicalSkillobj.Proficiency__c}"/>                                   
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                     
+               <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick="{!c.TechnicalSkillUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.TechnicalSkillClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop" aura:id="Modalbackdrop7"></div>                     
+           
+             </p>
+            
+            </lightning:card> 
+         </lightning:tab>
+         
+          <lightning:recordEditForm  recordId = "{!v.TechnicalSkillId}" objectApiName="Technical_Skill__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Competency__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Skill_Acquired_Date__c" class= "design"/>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Last_Worked_on__c" class= "design"/>
+      </lightning:layoutItem>
+           <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Proficiency__c" class= "design"/>
+      </lightning:layoutItem>
+          </lightning:layoutItem>
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox27" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseTechnicalSkill}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                  <lightning:card iconName="standard:avatar" 
+                     title="{! (v.TechnicalSkillId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.TechnicalSkillId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.TechnicalSkillId}" objectApiName="Technical_Skill__c"  onsubmit="{!c.handleSubmit6}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Competency__c"  />
+                         <lightning:inputField fieldName="Skill_Acquired_Date__c"  />
+                             <lightning:inputField fieldName="Last_Worked_on__c"/>
+                            <lightning:inputField fieldName="Proficiency__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseTechnicalSkill}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                  </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop27"></div>
+        
+         <lightning:tab label="Qualification Details" id="Three">
+             <lightning:card title="EducationalInfo" iconName="standard:education"  class= "header2">
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.EducationalInfoNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="College Name">College Name</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.EducationalInfoList}" var="EducationalInfo" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!EducationalInfo.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu alternativeText="Show menu"  aura:id="menu_+{!index}" onselect="{! c.EducationalInfoEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!EducationalInfo.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                      <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox8" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.EducationalInfoClose}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New EducationalInfo</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Educational_Info__c" class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Education__c" value="{!v.educationalInfoobj.Education__c}"/>
+                                     <lightning:inputField fieldName="Completion_Date__c" value="{!v.educationalInfoobj.Completion_Date__c}"/>
+                                     <lightning:inputField fieldName="Specialisation__c" value="{!v.educationalInfoobj.Specialisation__c}"/>
+                                     <lightning:inputField fieldName="Name" value="{!v.educationalInfoobj.Name}"/>
+                                    <lightning:inputField fieldName="University__c" value="{!v.educationalInfoobj.University__c}"/>                                   
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                     
+               <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick="{!c.EducationalInfoUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.EducationalInfoClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop" aura:id="Modalbackdrop8"></div>                     
+           
+             </p>
+            
+            </lightning:card>
+        
+         
+          
+           <lightning:recordEditForm  recordId = "{!v.EducationalInfoId}" objectApiName="Educational_Info__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Education__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Completion_Date__c" class= "design"/>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Specialisation__c" class= "design"/>
+      </lightning:layoutItem>
+             <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+             <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "University__c" class= "design"/>
+      </lightning:layoutItem>
+          </lightning:layoutItem>
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox28" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseEducationalInfo}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                 <lightning:card iconName="standard:avatar" 
+                     title="{! (v.EducationalInfoId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.EducationalInfoId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.EducationalInfoId}" objectApiName="Educational_Info__c"  onsubmit="{!c.handleSubmit7}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Education__c"  />
+                         <lightning:inputField fieldName="Completion_Date__c"  />
+                             <lightning:inputField fieldName="Specialisation__c"/>
+                             <lightning:inputField fieldName="Name"/>
+                             <lightning:inputField fieldName="University__c"/>
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseEducationalInfo}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                    </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop28"></div>
+           <lightning:card title="Certification" iconName="standard:performance" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.CertificationNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">                    
+        
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Certificate">Certificate</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.CertificationList}" var="Certificate" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!Certificate.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu  aura:id="menu_+{!index}" alternativeText="Show menu"  onselect="{! c.CertificateEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!Certificate.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox9" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.CertificationClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Certificate</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Certifications__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Name" value="{!v.certificationobj.Name}"/>
+                                    <lightning:inputField fieldName="Issued_By__c" value="{!v.certificationobj.Issued_By__c}"/>
+                                    <lightning:inputField fieldName="Expiration_Date__c" value="{!v.certificationobj.Expiration_Date__c}"/>
+                                    <lightning:inputField fieldName="Credential_ID__c" value="{!v.certificationobj.Credential_ID__c}"/>
+                                                                    
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.CertificationUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.CertificationClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop9"></div>            
+       
+                     
+                </p>
+       
+            </lightning:card>
+         <lightning:recordEditForm recordId = "{!v.CertificationId}" objectApiName="Certifications__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Issued_By__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Expiration_Date__c" class= "design"/>
+      </lightning:layoutItem>
+             <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Credential_ID__c" class= "design"/>
+      </lightning:layoutItem>
+            
+         
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox29" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseCertification}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                <lightning:card iconName="standard:avatar" 
+                     title="{! (v.CertificationId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.CertificationId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.CertificationId}" objectApiName="Certifications__c"  onsubmit="{!c.handleSubmit8}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Name"  />
+                         <lightning:inputField fieldName="Issued_By__c"  />
+                             <lightning:inputField fieldName="Expiration_Date__c"/>
+                             <lightning:inputField fieldName="Credential_ID__c"/>
+                            
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseCertification}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                   </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop29"></div>
+         
+          <lightning:card title="TrainingAward" iconName="standard:opportunity" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.TrainingAwardNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">                    
+        
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Honor / Award">Honor / Award</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.TrainingAwardList}" var="TrainingAward" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!TrainingAward.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu  aura:id="menu_+{!index}" alternativeText="Show menu" onselect="{! c.TrainingAwardEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!TrainingAward.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox10" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.TrainingAwardClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New TrainingAward</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Training_Awards__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Name" value="{!v.trainingAwardobj.Name}"/>
+                                    <lightning:inputField fieldName="Grantor__c" value="{!v.trainingAwardobj.Grantor__c}"/>
+                                    <lightning:inputField fieldName="Issue_Date__c" value="{!v.trainingAwardobj.Issue_Date__c}"/>
+                                    
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.TrainingAwardUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.TrainingAwardClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop10"></div>            
+       
+                     
+                </p>
+       
+            </lightning:card>
+         </lightning:tab>
+         
+           <lightning:recordEditForm  recordId = "{!v.TrainingAwardId}" objectApiName="Training_Awards__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Grantor__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Issue_Date__c" class= "design"/>
+      </lightning:layoutItem>
+         
+         
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox30" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseTrainingAward}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                <lightning:card iconName="standard:avatar" 
+                     title="{! (v.TrainingAwardId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.TrainingAwardId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.TrainingAwardId}" objectApiName="Training_Awards__c"  onsubmit="{!c.handleSubmit9}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Name"  />
+                         <lightning:inputField fieldName="Grantor__c"  />
+                             <lightning:inputField fieldName="Issue_Date__c"/>
+                           
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseTrainingAward}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                   </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop30"></div>
+         
+           <lightning:tab label="PassPort Details" id="Four">
+           <lightning:card title="Passport" iconName="standard:article" class= "header1" >
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.PassportNew}"/>
+        </aura:set>
+                 <p class="slds-p-horizontal_small">                    
+        
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="PassportNumber">PassportNumber</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.PassportList}" var="Passport" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!Passport.Passport_Number__c}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu  aura:id="menu_+{!index}" alternativeText="Show menu" onselect="{! c.PassportEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!Passport.Id}" label="Edit"  />
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox11" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.PassportClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Passport</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                <lightning:recordEditForm aura:id="form" objectApiName="Passport__c"  class="slds-card__body_inner">
+                                    <lightning:messages/>                                    
+                                    <lightning:inputField fieldName="Passport_Number__c" value="{!v.Passportobj.Passport_Number__c}"/>
+                                    <lightning:inputField fieldName="Country__c" value="{!v.Passportobj.Country__c}"/>
+                                    <lightning:inputField fieldName="Expiration_Date__c" value="{!v.Passportobj.Expiration_Date__c}"/>                                     
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.PassportUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.PassportClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop11"></div>                      
+                </p>       
+            </lightning:card>
+        </lightning:tab>
+         
+          <lightning:recordEditForm  recordId = "{!v.PassportId}" objectApiName="Passport__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Passport_Number__c" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Country__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Expiration_Date__c" class= "design"/>
+      </lightning:layoutItem>
+            
+          
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox31" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.ClosePassport}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                  <lightning:card iconName="standard:avatar" 
+                     title="{! (v.PassportId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.PassportId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.PassportId}" objectApiName="Passport__c"  onsubmit="{!c.handleSubmit10}">
+            
+                          <lightning:messages/>                                    
+                          <lightning:inputField fieldName="Passport_Number__c"  />
+                         <lightning:inputField fieldName="Country__c"  />
+                             <lightning:inputField fieldName="Expiration_Date__c"/>
+                            
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.ClosePassport}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                   </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+              
+         
+      <div class="slds-backdrop " aura:id="Modalbackdrop31"></div>
+         
+          <lightning:tab label="Visa Details" id="Five">
+           <lightning:card title="Visa" iconName="standard:avatar" class= "header1" >
+                 <aura:set attribute="actions">
+            <lightning:button variant="brand" iconName="utility:new" iconPosition="centre" label="New" onclick= "{!c.VisaNew}"/>
+        </aura:set>
+               
+                 <p class="slds-p-horizontal_small">                    
+        
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead> 
+                    <tr class="slds-text-title--caps">
+                        <th class="" scope="col">
+                           <td class="slds-text-align_right" role="gridcell">
+                             
+                            <div  title="Visa Name">Visa Name</div>
+                            </td>	
+       
+                        </th>
+                      
+                    </tr>            
+                </thead>
+                     <tbody>                    
+                 <aura:iteration items="{!v.VisaList}" var="Visa" indexVar="index">
+                        <tr class="slds-line-height_reset"> 
+                        <td> {!Visa.Name}</td>
+                             <td>
+                            <div class="slds-float_right"> 
+                        <lightning:buttonMenu   aura:id="menu_+{!index}" alternativeText="Show menu" onselect="{! c.VisaEdit }">
+                   <lightning:menuItem aura:id="ModelEdit_+{!index}" value="{!Visa.Id}" label="Edit"/>
+                    
+                                    
+             
+                                </lightning:buttonMenu>                               
+                                
+                                
+                            </div>
+                        </td>
+                          
+                        </tr>
+                    </aura:iteration>
+                </tbody>       
+                     </table>
+                     
+                 <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox12" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.VisaClose }" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="header43" class="slds-text-heading--medium">New Visa</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <lightning:card class="back">
+                                  <lightning:recordEditForm aura:id="form" objectApiName="Visa__c"  class="slds-card__body_inner">
+                                    <lightning:messages/> 
+                                      <lightning:inputField fieldName="Name" value="{!v.visaobj.Name}"/>
+                                   <lightning:inputField fieldName="Visa__c" value="{!v.visaobj.Visa__c}"/>
+                                    <lightning:inputField fieldName="Visa_Number__c" value="{!v.visaobj.Visa_Number__c}"/>
+                                    <lightning:inputField fieldName="VisaCountry__c" value="{!v.visaobj.VisaCountry__c}"/>
+                                    <lightning:inputField fieldName="Type__c" value="{!v.visaobj.Type__c}"/>
+                                    <lightning:inputField fieldName="Visa_Expiration_Date__c" value="{!v.visaobj.Visa_Expiration_Date__c}"/>
+                                     <lightning:inputField fieldName="Passport__c" value="{!v.visaobj.Passport__c}"/> 
+                                </lightning:recordEditForm>
+                            </lightning:card>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="slds-modal__footer">                        
+                        <div class="slds-m-top_medium" >
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" onclick= "{!c.VisaUpdate}"/>
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick= "{!c.VisaClose}"/>                            
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="slds-backdrop " aura:id="Modalbackdrop12"></div>            
+       
+                     
+                </p>
+       
+             </lightning:card>
+         </lightning:tab>
+            
+            <lightning:recordEditForm  recordId = "{!v.VisaId}" objectApiName="Visa__c">
+            
+                <div class="slds-section__content" id="DetailList">
+      <lightning:layout multipleRows="true">
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Name" class= "design"/>
+      </lightning:layoutItem>
+      <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Visa__c" class= "design"/>
+          </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Visa_Number__c" class= "design"/>
+      </lightning:layoutItem>
+               <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "VisaCountry__c" class= "design"/>
+      </lightning:layoutItem>
+               <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Type__c" class= "design"/>
+      </lightning:layoutItem>
+               <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Visa_Expiration_Date__c" class= "design"/>
+      </lightning:layoutItem>
+               <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+      <lightning:outputField fieldName= "Passport__c" class= "design"/>
+      </lightning:layoutItem>
+            
+          
+      </lightning:layout>
+      </div>
+                    </lightning:recordEditForm>
+            
+              
+            
+  <div role="dialog"  aria-labelledby="header43" aura:id="Modalbox32" class="slds-modal">
+         <div class="slds-modal__container">
+            <div class="slds-modal__header">
+               <lightning:buttonIcon iconName="utility:close" onclick="{!c.CloseVisa}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+               <h2 id="header43" class="slds-text-heading--medium">Edit Record</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+               <div>
+                <lightning:card iconName="standard:avatar" 
+                     title="{! (v.VisaId == null ? 'New ' : 'Edit') + 'Record Details' }" class="back">
+                    
+                        <aura:if isTrue="{!not(empty(v.VisaId))}">  
+                        <lightning:recordEditForm aura:id="form" recordId="{!v.VisaId}" objectApiName="Visa__c"  onsubmit="{!c.handleSubmit11}">
+            
+                          <lightning:messages/>                                    
+                            <lightning:inputField fieldName="Name" />
+                            <lightning:inputField fieldName="Visa__c"/>
+                                    <lightning:inputField fieldName="Visa_Number__c" />
+                                    <lightning:inputField fieldName="VisaCountry__c"/>
+                                    <lightning:inputField fieldName="Type__c" />
+                                    <lightning:inputField fieldName="Visa_Expiration_Date__c" />
+                                     <lightning:inputField fieldName="Passport__c"/>                             
+                            <lightning:button variant="brand" iconName="utility:save" iconPosition="center" label="Save" type="submit" />
+                            <lightning:button variant="brand" iconName="utility:cancel" iconPosition="center" label="Cancel" onclick="{!c.CloseVisa}"/>
+                           </lightning:recordEditForm>
+                            </aura:if>  
+                  </lightning:card>
+                       
+                                                        
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                           
+          
+              
+            
+      <div class="slds-backdrop " aura:id="Modalbackdrop32"></div>
+                 
+        
+         
+  </lightning:tabset>
+    </lightning:card>
+</aura:component>
+
