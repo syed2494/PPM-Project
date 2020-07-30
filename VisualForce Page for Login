@@ -1,7 +1,7 @@
 --------Here we are creating vf page which will call lightning component into this page.--------------------
 
 
-Vflight.vfp
+--Vflight.vfp-->
 
 <apex:page showHeader="false" sidebar="false" standardStylesheets="true">
 
