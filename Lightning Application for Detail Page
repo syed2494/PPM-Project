@@ -1,0 +1,6 @@
+UpdateModelapp.app----------------------->
+
+<aura:application extends="ltng:outApp" access="GLOBAL" implements="ltng:allowGuestAccess">
+     <aura:dependency resource="c:UpdateModelapp"/>
+    
+</aura:application>
